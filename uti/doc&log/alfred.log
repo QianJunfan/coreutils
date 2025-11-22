@@ -1,0 +1,13 @@
+Development Log of Alfred
+
+> Alpha 0.1.0   (Nov 22, 2025)
+
+        Current:
+                The core function is complete,
+                and Alfred can currently generate logs,
+                the alfignore file works correctly.
+                Meanwhile, there are no currently visible bugs.
+        
+        Next:
+                The next update will focus on adding new 
+                features and code cleanup/refactoring.

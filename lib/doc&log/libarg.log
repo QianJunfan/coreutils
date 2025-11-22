@@ -1,0 +1,27 @@
+Development Log of libarg
+
+> Alpha 0.1.0   (Nov 20, 2025)
+        Brief:
+                The main features are complete, but it is still a work in
+                progress.
+
+        Current:
+                The overall architecture has been established.
+
+                Some APIs have been implemented:                        
+                        Register a Command via argc.
+                        Register an Option via argo.
+                        Initialize the entire libarg via argi.
+                        Check if a Command/Option appeared via arge.
+
+                Libarg can successfully read and parse command-line arguments.
+
+                But, It's not yet possible to read the corresponding values of
+                the command-line arguments.
+
+                And there are still some bugs and memory management issues in
+                the current version.
+
+        Next:
+                The next update will focus on code implementation 
+                optimization and documentation, alongside bug fixes.
