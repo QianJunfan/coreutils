@@ -1,15 +1,22 @@
 ./
-         LICENSE    - MIT License
+         LICENSE       - MIT License
+         coreutils.log - Coreutils Development Log
 
 uti/
-         alfred.c   - Automated Log Processing program
+         fl.c          - Format and List all files
+         alfred.c      - Automated Log Processing program
 
-uti/doc&log/
-         alfred.log - Development Log of Alfred
+uti/doc_log/
+         alfred.log    - Development Log of Alfred
 
-lib/
-         liberr.h   - Lightweight Error-handling Library (unfinished)
-         libarg.h   - Lightweight Command-line Argument Parsing Library
+lib/     
+         library files
+         
+         libarg.h      - Lightweight Command-line Argument Parsing Library
+         libtim.h      - Lightweight Time and Date Utility Library
 
-lib/doc&log/
-         libarg.log - Development Log of libarg
+lib/doc_log/
+         libarg.log    - Development Log of libarg
+         libarg.doc    - Doc of libarg
+         libtim.log    - Development Log of libtim
+         libtim.doc    - Doc of libtim

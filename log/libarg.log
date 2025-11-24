@@ -1,5 +1,25 @@
 Development Log of libarg
 
+* Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
+*                             <https://github.com/qianjunfan> 
+
+> Alpha 0.1.1   (Nov 23, 2025)
+        Brief:
+                This is a stability update focusing on critical bug fixes 
+                and memory safety. 
+                The library is now considered truly ready for use.
+
+        Current:
+                The error function now accepts and prints the program's
+                name, retrieved from rt.program_name, 
+                for better diagnostic feedback.
+
+                Parsing logic has been refactored.
+
+        Next:
+                The next update will focus on documentation,
+                and the implementation of positional arguments.
+
 > Alpha 0.1.0   (Nov 20, 2025)
         Brief:
                 The main features are complete, but it is still a work in

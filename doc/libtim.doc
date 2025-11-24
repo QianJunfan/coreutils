@@ -1,0 +1,43 @@
+Doc of libtim
+
+1. OVERVIEW
+
+The libtim library provides minimal functions for retrieving the current system
+time and converting time arrays between a local offset and UTC. Time data is 
+always returned as a pointer to a static array of eight uint16_t values.
+
+(Features will only be added if there is a demand from other coreutils.
+ Ohterwise, only bug fixes will be released)
+
+
+2. TIME DATA STRUCTURE (uint16_t data[8])
+
+The eight fields of the returned array are:
+
+ Index | Field Name | Description                     | Notes
+-----------------------------------------------------------------
+   0   | year       | Full year.                      | e.g., 2025
+   1   | month      | Month (1-12).                   | 1-12
+   2   | day        | Day of month.                   | 1-31
+   3   | hour       | Hour (24h).                     | 0-23
+   4   | minute     | Minute.                         | 0-59
+   5   | second     | Second.                         | 0-59
+   6   | season     | Reserved.                       | Always 0
+   7   | weekday    | Day of week.                    | 0 (Sun) - 6 (Sat)
+
+3. PUBLIC FUNCTIONS
+
+3.1. uint16_t *timf(void)
+
+    Returns the current local time and date, automatically using the system's
+    timezone offset.
+
+3.2. uint16_t *timuf(int utc_offset)
+
+    Returns the current time and date calculated using a user-specified UTC 
+    offset (in hours).
+
+3.3. uint16_t *timsw(int utc_offset, uint16_t time_data[8])
+
+    Converts a time array (time_data) from the given local offset (utc_offset)
+    to UTC time.
