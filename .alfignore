@@ -1,16 +1,6 @@
-ignore files:
-        libarg.c
-        liberr.c
-        libcel.c
-        libtim.c
-        README
-        a.out
-
-ignore folders:
-        /doc&log
-        /lib/src
-
-description of folders:
-        /lib: library files
-
-
+libarg.c
+libtime.c
+libfile.c
+README
+alfred
+a.out

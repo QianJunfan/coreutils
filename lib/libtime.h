@@ -15,8 +15,8 @@
  *                                            (Nov 25, 2025) Version Alpha 0.1.0
  */
 
-#ifndef LIBTIM_H
-#define LIBTIM_H
+#ifndef LIBTIME_H
+#define LIBTIME_H
 
 #include <stdint.h>
 

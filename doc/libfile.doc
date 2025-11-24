@@ -1,0 +1,73 @@
+Doc of libfile
+
+1. OVERVIEW
+
+The libfile library provides a set of lightweight utility functions for common
+file and directory operations. These functions include checking existence,
+counting entries, reading file content (line by line or all), and listing
+directory contents.
+
+2. PUBLIC FUNCTIONS
+
+2.1. uint64_t file_le(const char *file_path)
+
+    Calculates the Line Entries count for the specified file.
+    - file_path: The path to the file.
+    - Returns:   The number of lines in the file. Returns 0 if the file
+                 does not exist or cannot be opened.
+
+2.2. char **file_ls(const char *file_path)
+
+    Reads all content of the specified file and returns it as a List of Strings 
+    (a null-terminated array of strings). Each line is a separate string
+    element, with the trailing newline character removed.
+    - file_path: The path to the file.
+    - Returns:   A char** array containing all lines from the file. The
+                 last element of the array is NULL. 
+                 Returns NULL if the file does not exist, cannot be opened, 
+                 or if memory allocation fails.
+    - Note:      The caller is responsible for freeing the allocated memory 
+                 (e.g., using a dedicated array-freeing function).
+
+2.3. char *file_li(const char *file_path, uint64_t cnt)
+
+    Reads the content of a Line Indexed by number from the specified file.
+    - file_path: The path to the file.
+    - cnt:       The line number to read (1-based index).
+    - Returns:   A dynamically allocated copy of the specified line, with the 
+                 trailing newline character removed. 
+                 Returns NULL if the file does not exist, cannot be opened, 
+                 the line index is out of bounds, or if memory allocation fails.
+    - Note:      The caller must use free() to release the returned string.
+
+2.4. bool file_ex(const char *file_path)
+
+    Checks if the given path Exists and is a regular file.
+    - file_path: The file path to check.
+    - Returns:   true: If the path exists and is a regular file.
+                 false: Otherwise.
+
+2.5. bool dir_ex(const char *dict_path)
+
+    Checks if the given path Exists and is a directory.
+    - dict_path: The directory path to check.
+    - Returns:   true: If the path exists and is a directory.
+                 false: Otherwise.
+
+2.6. uint64_t dir_le(const char *dict_path)
+
+    Calculates the List Entries count in the specified directory
+    (including '.' and '..').
+    - dict_path: The path to the directory.
+    - Returns:   The number of entries in the directory. Returns 0 if the
+                 directory does not exist or cannot be opened.
+
+2.7. char **dir_ls(const char *dict_path)
+
+    Reads all List of Strings (entry names) from the specified directory.
+    - dict_path: The path to the directory.
+    - Returns:   A char** array containing the names of all directory entries.
+                 The list includes '.' and '..', and the last element is NULL.
+                 Returns NULL if the directory does not exist, cannot be opened,
+                 or if memory allocation fails.
+    - Note:      The caller is responsible for freeing the allocated memory.

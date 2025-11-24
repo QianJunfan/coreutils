@@ -1,8 +1,8 @@
-Doc of libtim
+Doc of libtime
 
 1. OVERVIEW
 
-The libtim library provides minimal functions for retrieving the current system
+The libtime library provides minimal functions for retrieving the current system
 time and converting time arrays between a local offset and UTC. Time data is 
 always returned as a pointer to a static array of eight uint16_t values.
 

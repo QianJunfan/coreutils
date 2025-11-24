@@ -1,5 +1,18 @@
 Coreutils Development Log
 
+> Alpha 0.1.2   (Nov 25, 2025)
+        Added libfile for basic file opeation.
+        To unify the naming, the name of libtim was changed to libtime, but the 
+        specific functionality remains unchanged.
+
+        doc update
+                Add documentation for libfile.
+
+        libfile (updated from _ to alpha 0.1.0)
+                This is the first release of libfile. 
+                All currently required functionality has been completed.
+
+
 > Alpha 0.1.1   (Nov 25, 2025)
         Added libtim for time formatting and processing.
 

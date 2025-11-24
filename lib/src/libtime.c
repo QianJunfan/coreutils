@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 
-#include "../libtim.h"
+#include "../libtime.h"
 
 struct runtime {
 	union {
