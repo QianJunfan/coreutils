@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "../lib/libarg.h"
+#include "libarg.h"
 
 void reg(void)
 {

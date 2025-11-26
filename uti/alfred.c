@@ -1,17 +1,20 @@
 /* Automated Log Processing program */
-
 /*
 * This tool recursively scans directories, extracts descriptions from files,
-* and generates a formatted README file listing all project files.
+* and generates a formatted file tree listing all project files.
 *
-* The core funciton is complete, the alfignore file works fine.
-* Meanwhile, there are no currently visible bugs.
+* Currently, alfred uses libfile library for file operations. 
+* Additionally, the .alfignore file has been modified to .alf, and the .alf
+* file now supports more syntax features:
+*             ignoring files with a specific extension
+*             adding comments to folders,
+*             and even using '#' to add comments for .alf script.
 *
 *                            Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
 *                                                <https://github.com/qianjunfan>
 *
 *                              Copyright (C) Qian Junfan <qianjunfan0@gmail.com>
-*                                             Version Alpha 0.1.0 (Nov 22, 2025)
+*                                             Version Alpha 0.1.1 (Nov 27, 2025)
 */
 
 #include <stdio.h>
@@ -21,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "libfile.h"
 
 #define MAX_PATH 1024
 #define MAX_DESC 1024
@@ -28,11 +32,22 @@
 #define MAX_PAT 256
 #define ROOT_DIR "."
 #define README_FILE "./README"
-#define IGNORE_FILE "./.alfignore"
+#define IGNORE_FILE "./.alf"
 #define INDENT_STR "         "
 
 static char *ignore_pat[MAX_PAT];
+static char *dir_desc[MAX_PAT];
 static int num_pat = 0;
+static int num_dir_desc = 0;
+
+static void free_string_array(char **arr)
+{
+	if (arr == NULL)
+		return;
+	for (char **p = arr; *p != NULL; p++)
+		free(*p);
+	free(arr);
+}
 
 static int pat_match(const char *fname)
 {
@@ -58,8 +73,14 @@ static int pat_match(const char *fname)
 		if (!pat || *pat == '\0')
 			continue;
 
-		if (pat[strlen(pat) - 1] == '/')
+		if (pat[strlen(pat) - 1] == '/') {
+			if (strcmp(name, pat) == 0 ||
+				(strlen(name) > 0 && name[strlen(name) - 1] == '/' &&
+				 strncmp(name, pat, strlen(pat) - 1) == 0 &&
+				 name[strlen(pat) - 1] == '\0'))
+				return 1;
 			continue;
+		}
 
 		if (strcmp(name, pat) == 0)
 			return 1;
@@ -84,15 +105,16 @@ static void load_ignores(void)
 	char line[MAX_LINE];
 	char *trim_line;
 	size_t len;
+	char *equal_sign;
 
 	fp = fopen(IGNORE_FILE, "r");
 	if (!fp) {
-		printf("Warning: Could not open ignore file %s. Proceeding without ignore list.\n",
+		printf("Warning: Could not open configuration file %s. Proceeding without ignore list and dir descriptions.\n",
 		       IGNORE_FILE);
 		return;
 	}
 
-	while (fgets(line, sizeof(line), fp) && num_pat < MAX_PAT) {
+	while (fgets(line, sizeof(line), fp)) {
 		trim_line = line;
 
 		while (*trim_line == ' ' || *trim_line == '\t')
@@ -107,9 +129,21 @@ static void load_ignores(void)
 		if (*trim_line == '\0' || *trim_line == '#')
 			continue;
 
-		ignore_pat[num_pat] = strdup(trim_line);
-		if (ignore_pat[num_pat])
-			num_pat++;
+		equal_sign = strchr(trim_line, '=');
+
+		if (equal_sign) {
+			if (num_dir_desc < MAX_PAT) {
+				dir_desc[num_dir_desc] = strdup(trim_line);
+				if (dir_desc[num_dir_desc])
+					num_dir_desc++;
+			}
+		} else {
+			if (num_pat < MAX_PAT) {
+				ignore_pat[num_pat] = strdup(trim_line);
+				if (ignore_pat[num_pat])
+					num_pat++;
+			}
+		}
 	}
 
 	fclose(fp);
@@ -121,12 +155,56 @@ static void free_pat(void)
 
 	for (i = 0; i < num_pat; i++)
 		free(ignore_pat[i]);
+
+	for (i = 0; i < num_dir_desc; i++)
+		free(dir_desc[i]);
 }
 
-static char *get_desc(const char *fpath)
+static char *get_dir_desc(const char *dir_name)
 {
-	FILE *fp;
-	char line[MAX_LINE];
+	int i;
+	char *desc = NULL;
+	char *equal_sign;
+	char *dir_name_end;
+	char name_buf[MAX_PATH];
+	const char *name_ptr;
+
+	name_ptr = strrchr(dir_name, '/');
+	name_ptr = name_ptr ? name_ptr + 1 : dir_name;
+
+	for (i = 0; i < num_dir_desc; i++) {
+		if (!dir_desc[i])
+			continue;
+
+		equal_sign = strchr(dir_desc[i], '=');
+		if (!equal_sign)
+			continue;
+
+		strncpy(name_buf, dir_desc[i], equal_sign - dir_desc[i]);
+		name_buf[equal_sign - dir_desc[i]] = '\0';
+
+		dir_name_end = name_buf + strlen(name_buf) - 1;
+		while (dir_name_end >= name_buf && (*dir_name_end == ' ' || *dir_name_end == '\t')) {
+			*dir_name_end = '\0';
+			dir_name_end--;
+		}
+
+		if (strcmp(name_ptr, name_buf) == 0) {
+			char *desc_start = equal_sign + 1;
+			while (*desc_start == ' ' || *desc_start == '\t')
+				desc_start++;
+
+			desc = strdup(desc_start);
+			break;
+		}
+	}
+
+	return desc;
+}
+
+static char *get_file_desc(const char *fpath)
+{
+	char **lines = NULL;
 	char *desc = NULL;
 	char *trim_line;
 	char *start_cmt;
@@ -134,18 +212,19 @@ static char *get_desc(const char *fpath)
 	char *start;
 	size_t len;
 	int found = 0;
+	int i;
 
-	fp = fopen(fpath, "r");
-	if (!fp)
+	lines = file_ls(fpath);
+	if (!lines)
 		return NULL;
 
-	while (fgets(line, sizeof(line), fp)) {
-		trim_line = line;
+	for (i = 0; lines[i] != NULL; i++) {
+		trim_line = lines[i];
 
 		while (*trim_line == ' ' || *trim_line == '\t')
 			trim_line++;
 
-		if (*trim_line == '\n' || *trim_line == '\0')
+		if (*trim_line == '\0')
 			continue;
 
 		if (*trim_line == '#')
@@ -181,7 +260,7 @@ static char *get_desc(const char *fpath)
 	}
 
 cleanup:
-	fclose(fp);
+	free_string_array(lines);
 
 	if (desc) {
 		len = strlen(desc);
@@ -305,7 +384,7 @@ static void scan_dir(FILE *fp, const char *path, const char *prefix,
 			continue;
 
 		if (S_ISREG(st.st_mode)) {
-			desc = get_desc(child_path);
+			desc = get_file_desc(child_path);
 			write_entry(fp, name, desc, max_len);
 			if (desc)
 				free(desc);
@@ -331,8 +410,20 @@ static void scan_dir(FILE *fp, const char *path, const char *prefix,
 			snprintf(next_prefix, MAX_PATH, "%s%s/",
 				 prefix, name);
 
-			fprintf(fp, "\n%s\n", next_prefix);
-			printf("\n%s\n", next_prefix);
+			desc = get_dir_desc(child_path);
+
+			fprintf(fp, "\n%s", next_prefix);
+			printf("\n%s", next_prefix);
+
+			if (desc) {
+				fprintf(fp, " - %s", desc);
+				printf(" - %s", desc);
+				free(desc);
+			}
+
+			fputc('\n', fp);
+			fputc('\n', stdout);
+
 
 			scan_dir(fp, child_path, next_prefix, max_len);
 		}

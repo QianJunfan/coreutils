@@ -1,5 +1,26 @@
 Development Log of Alfred
 
+* Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
+*                             <https://github.com/qianjunfan> 
+
+> Alpha 0.1.1   (Nov 27, 2025)
+        
+        Currently, alfred has switch to libfile library for file operations. 
+
+        Additionally, the .alfignore file has been modified to .alf, 
+        and the .alf file now supports more syntax features:
+
+                ignoring files with a specific extension
+                adding comments to folders,
+                and even using '#' to add comments for .alf script.
+        
+        Next:
+                The next update will refactor the entire alfred program, and at
+                the same time, add a more visually appealing output format.
+
+                If possible, alfred will use more of Coreutils Library.
+                
+
 > Alpha 0.1.0   (Nov 22, 2025)
 
         Current:

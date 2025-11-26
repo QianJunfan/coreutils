@@ -1,0 +1,35 @@
+Development Log of libstr
+
+* Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
+*                             <https://github.com/qianjunfan>
+
+> Alpha 0.1.0     (Nov 27, 2025)
+        Brief:
+                This is the first release version of libstr. 
+                It implements several high-level operations for string 
+                manipulation.
+
+        Detail:
+        The functions implemented in this version include:
+
+          strsplit     - Splitting a string into an array
+          strjoin      - Joining a string array back into a single string
+          str_arr_free - Frees the dynamically allocated string array. 
+          strtrim      - Removing whitespace from both the start and end of a
+                         string.
+          strltrim     - Removing whitespace only from the start of a string. 
+          strrtrim     - Removing whitespace only from the end of a string.
+          strreplace   - Replacing all occurrences of a substring with 
+                         another substring
+          strtolower   - Converting the entire string to lowercase.
+          strtoupper   - Converting the entire string to uppercase. 
+          streqi       - Performing a case-insensitive comparison between two 
+                         strings.
+          strstarts    - Checking if a string begins with a specified substring.
+          strends      - Checking if a string ends with a specified substring.
+
+        Next:
+                This library will only receive functional updates when requested
+                by other libraries or Coreutils.
+                Otherwise, it will only receive bug fixes and maintenance 
+                updates

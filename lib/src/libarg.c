@@ -319,9 +319,10 @@ int argi(char *program_name, int argc, char **argv,
 		return -1;
 
 	reg();
-	
+
 	if (!parse())
 		guide();
-	view();
+
+	// view();
 	return 0;
 }
