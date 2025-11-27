@@ -126,3 +126,15 @@ maintenance updates.
     - Returns: int. 
                Returns non-zero (true) if `s` ends with `end`, 
                0 (false) otherwise.
+
+2.13. int strcmpm(const char *src, ...)
+
+    Compares a source string against a variable list of target strings.
+
+    - src: The source string to be compared.
+    - ...: A variable list of char* strings, 
+           which MUST be terminated by a NULL pointer.
+    - Returns: int.
+               Returns non-zero (true/1) if `src` matches ANY 
+               of the target strings,
+               0 (false/0) otherwise.

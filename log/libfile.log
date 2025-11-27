@@ -3,6 +3,18 @@ Development Log of libfile
 * Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
 *                             <https://github.com/qianjunfan>
 
+
+> Alpha 0.1.1   (Nov 28, 2025)
+        Brief:
+                Added fundamental file writing APIs.
+
+        New functionality:
+
+                - file_ws: Write string to file (overwrite).
+                - file_wa: Append string to file.
+                - file_wls: Write string array (lines) to file (overwrite).
+
+
 > Alpha 0.1.0   (Nov 25, 2025)
         Brief:
                 This is the first release of libfile. 

@@ -18,7 +18,6 @@ enum {
 	KEY_BACKSPACE	= 0x7f,
 };
 
-static struct termios t_orig;
 static struct termios raw_termios;
 
 static void tty_raw(void)

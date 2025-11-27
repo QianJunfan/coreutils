@@ -3,6 +3,17 @@ Development Log of libstr
 * Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
 *                             <https://github.com/qianjunfan>
 
+> Alpha 0.1.1     (Nov 28, 2025)
+        Expanded the function set.
+
+        The newly added functions comprise:
+        
+                int strcmpm(const char *src, ...)
+                        Compares a source string against a variable 
+                        list of target strings.
+                
+
+
 > Alpha 0.1.0     (Nov 27, 2025)
         Brief:
                 This is the first release version of libstr. 

@@ -267,3 +267,28 @@ char *strreplace(const char *s, const char *old, const char *new)
 
         return res;
 }
+
+
+int strcmpm(const char *src, ...)
+{
+        va_list args;
+        const char *target;
+        int found = 0;
+
+        va_start(args, src);
+
+        while (1) {
+                target = va_arg(args, const char *);
+
+                if (target == NULL)
+                        break;
+
+                if (strcmp(src, target) == 0) {
+                        found = 1;
+                        break;
+                }
+        }
+
+        va_end(args);
+        return found;
+}

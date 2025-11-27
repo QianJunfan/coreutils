@@ -44,7 +44,6 @@ static bool         parse(void);
 static struct cmd  *findc(char *name);
 static struct opt  *findo(char *cmd, char *opt);
 static bool         act_opt(char *opt);
-static void         view(void);
 
 static void error(const uint8_t err_code, const char *msg)
 {
@@ -194,6 +193,7 @@ err:
 	return false;
 }
 
+/*
 static void view(void)
 {
 	int cmdc = rt.cmdc;
@@ -214,7 +214,7 @@ static void view(void)
 		}
 	}
 }
-
+*/
 void argd(void)
 {
 	if (rt.cmdr == NULL)

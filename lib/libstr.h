@@ -15,7 +15,8 @@
 #ifndef LIBSTR_H
 #define LIBSTR_H
 
-#include <stddef.h> /* For size_t */
+#include <stddef.h>
+#include <stdarg.h>
 
 /* Memory management function */
 void str_arr_free(char **res, int count);
@@ -40,5 +41,5 @@ char *strreplace(const char *s, const char *old, const char *new);
 int streqi(const char *s1, const char *s2);
 int strstarts(const char *s, const char *start);
 int strends(const char *s, const char *end);
-
+int strcmpm(const char *src, ...);
 #endif

@@ -31,4 +31,4 @@ uint16_t *timf(void);
  */
 uint16_t *timsw(int utc_offset, uint16_t data[8]);
 
-#endif LIBTIM_H
+#endif

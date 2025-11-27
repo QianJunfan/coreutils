@@ -200,3 +200,77 @@ char **dir_ls(const char *dict_path)
 
         return entries;
 }
+
+bool file_ws(const char *file_path, const char *content)
+{
+        FILE *fp;
+        bool success = false;
+
+        if (!file_path || !content)
+                return false;
+        
+        fp = fopen(file_path, "w");
+        if (!fp)
+                return false;
+
+        if (fputs(content, fp) >= 0 && ferror(fp) == 0) {
+            success = true;
+        }
+
+        if (ferror(fp))
+            success = false;
+
+        fclose(fp);
+        return success;
+}
+
+
+bool file_wa(const char *file_path, const char *content)
+{
+        FILE *fp;
+        bool success = false;
+
+        if (!file_path || !content)
+                return false;
+
+        fp = fopen(file_path, "a");
+        if (!fp)
+                return false;
+
+        if (fputs(content, fp) >= 0 && ferror(fp) == 0) {
+            success = true;
+        }
+
+        if (ferror(fp))
+            success = false;
+
+        fclose(fp);
+        return success;
+}
+
+
+bool file_wls(const char *file_path, char **lines)
+{
+        FILE *fp;
+        bool success = true;
+
+        if (!file_path || !lines)
+                return false;
+
+        fp = fopen(file_path, "w");
+        if (!fp)
+                return false;
+
+        for (char **p = lines; *p != NULL; p++) {
+                if (fprintf(fp, "%s\n", *p) < 0) {
+                        success = false;
+                        break; 
+                }
+        }
+        
+        if (ferror(fp))
+            success = false;
+        
+        fclose(fp);
+        return success;
+}

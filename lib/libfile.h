@@ -3,17 +3,12 @@
 /* The libfile library provides a set of lightweight utility functions for
  * common file and directory operations. 
  *
- * These functions include checking existence, counting entries, reading file 
- * content (line by line or all), and listing directory contents.
- *
- * The next update will focus on functional updates.
- *
  *                           Maintainer 2025 Qian Junfan <qianjunfan0@gmail.com>
  *                                               <https://github.com/qianjunfan>
  *
  *                             Copyright (C) Qian Junfan <qianjunfan0@gmail.com>
  *
- *                                            (Nov 23, 2025) Version Alpha 0.1.0
+ *                                            (Nov 23, 2025) Version Alpha 0.1.1
  */
 
 #ifndef LIBFILE_H
@@ -23,7 +18,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-/* File Operations */
+/* File Reading Operations */
 
 /* Get the number of lines in a file. 
  * Returns 0 on error or if file is empty/non-existent. 
@@ -45,6 +40,24 @@ char *file_li(const char *file_path, uint64_t cnt);
 /* Check if the given path exists and is a regular file. */
 bool file_ex(const char *file_path);
 
+
+/* File Writing Operations */
+
+/* Writes a string to a file, overwriting existing content.
+ * Returns true on success, false on error.
+ */
+bool file_ws(const char *file_path, const char *content);
+
+/* Appends a string to the end of a file.
+ * Returns true on success, false on error.
+ */
+bool file_wa(const char *file_path, const char *content);
+
+/* Writes a NULL-terminated string array (lines) to a file, overwriting 
+ * existing content. Each string in the array will be written to a new line.
+ * Returns true on success, false on error.
+ */
+bool file_wls(const char *file_path, char **lines);
 
 
 /* Directory Operations */
