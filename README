@@ -1,18 +1,1 @@
-./
-         LICENSE   - MIT License
-         a.out     - Οϊνώ
 
-uti/ - All Coreutils
-
-lib/ - Coreutils' Library
-         libtio.h  - Lightweight Terminal Input/Output Library
-         libfile.h - Lightweight File Operation Library
-         libarg.h  - Lightweight Command-line Argument Parsing Library
-         libtime.h - Lightweight Time and Date Utility Library
-         libstr.h  - Lightweight C String Manipulation Library
-
-lib/src/ - Source code for the library
-
-log/ - Development Logs
-
-doc/ - Project Documentations
